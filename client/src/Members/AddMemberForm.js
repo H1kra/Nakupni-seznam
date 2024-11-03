@@ -4,7 +4,7 @@ import Form from "react-bootstrap/Form";
 
 function AddMemberForm({ show, handleClose, userList, handlerMap }) {
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} style={{zIndex: 1101}}>
       <Form
         onSubmit={(e) => {
           e.preventDefault();

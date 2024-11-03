@@ -20,6 +20,7 @@ function MemberList() {
             />
             <div>
                 Member List{" "}
+
                 {data.owner === loggedInUser ? (
                     <button onClick={() => setShow(true)}>add member</button>
                 ) : (

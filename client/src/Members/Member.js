@@ -2,7 +2,7 @@ function Member({ data, handlerMap, isOwner, showRemoveButton }) {
   return (
     <div>
       {data.name}
-      {isOwner ? " true " : " "}
+      {isOwner ? " (Owner) " : " "}
       {showRemoveButton ? (
         <button onClick={() => handlerMap.removeMember({ memberId: data.id })}>
           remove
