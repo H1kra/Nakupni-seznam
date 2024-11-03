@@ -28,7 +28,8 @@ function CustomModal() {
                         backgroundColor: "lightgray",
                         cursor: "pointer",
                         margin: "20px",
-                        borderRadius: "10px"
+                        borderRadius: "10px",
+                        overflow: "hidden"
                     }}
                     onClick={openModal}
                 >
