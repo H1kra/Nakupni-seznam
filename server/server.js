@@ -1,6 +1,29 @@
-const express = require('express')
-const mongoose = require(mongoose)
+const express = require('express');
+const mongoose = require("mongoose");
+const app = express();
+mongoose.set('strictQuery', false);
 
-const app = express()
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect('')
+if (process.env.NODE_ENV !== 'development') {
+    require('dotenv').config();
+}
+
+const PORT = process.env.PORT || 3000;
+const CONNECTION = process.env.CONNECTION;
+
+
+const start = async() => {
+    try {
+        await mongoose.connect(CONNECTION);
+
+        app.listen(PORT, () => {
+            console.log(`Server started on port ${PORT}`);
+        });
+    } catch (e) {
+        console.log(e.message);
+    }
+};
+
+start();
