@@ -12,6 +12,19 @@ function CustomModal() {
     const { data, handlerMap } = useContext(ListDetailContext);
     const { loggedInUser } = useContext(UserContext);
     const isUserMember = data.memberList.includes(loggedInUser) || data.owner === loggedInUser;
+    const [isHovered, setIsHovered] = useState(false);
+
+    const cardStyle = {
+        width: "200px",
+        height: "300px",
+        backgroundColor: "lightgray",
+        cursor: "pointer",
+        margin: "20px",
+        borderRadius: "10px",
+        overflow: "hidden",
+        border: isHovered ? "1px solid black" : "",
+        transition: "border 0.3s ease"
+    };
 
     const openModal = () => setIsModalVisible(true);
     const closeModal = () => setIsModalVisible(false);
@@ -22,20 +35,14 @@ function CustomModal() {
         <div>
             {isUserMember && (
                 <div
-                    style={{
-                        width: "200px",
-                        height: "300px",
-                        backgroundColor: "lightgray",
-                        cursor: "pointer",
-                        margin: "20px",
-                        borderRadius: "10px",
-                        overflow: "hidden"
-                    }}
+                    style={cardStyle}
                     onClick={openModal}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
                 >
-                    <h3 style={{ textAlign: "center" }}>{data?.name}</h3>
+                    <h3 style={{textAlign: "center"}}>{data?.name}</h3>
                     {data?.itemList.map((item) => (
-                        <p key={item.id} style={{ marginLeft: "5px" }}>• {item.name}</p>
+                        <p key={item.id} style={{marginLeft: "5px"}}>• {item.name}</p>
                     ))}
                 </div>
             )}
