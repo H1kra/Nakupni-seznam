@@ -12,9 +12,14 @@ function ItemList() {
         {showResolved ? "not resolved only" : "all items"}
       </button>
       <div>
-        {data.itemList.map((item) => (
-          <Item key={item.id} data={item} handlerMap={handlerMap} />
-        ))}
+          {data.map((list) => (
+              <div key={list.id} style={{ marginBottom: "16px" }}>
+                  <h4>{list.name}</h4>
+                  {list.itemList.map((item) => (
+                      <Item key={item.id} data={item} handlerMap={handlerMap} />
+                  ))}
+              </div>
+          ))}
       </div>
     </div>
   );

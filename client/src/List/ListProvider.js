@@ -18,23 +18,105 @@ function ListDetailProvider({ children }) {
                             },
                         ],
 
-                    }
-                ],
-                [
+                    },
                     {
-                        id: "tdl01",
-                        name: "První úkolovník",
+                        id: "tdl02",
+                        name: "druhy úkolovník",
                         owner: "u1",
                         memberList: ["u2", "u3"],
                         itemList: [
                             {
-                                id: "td01",
+                                id: "td02",
                                 name: "první úkol",
                                 resolved: false,
                             },
                         ],
 
-                    }
+                    },
+                    {
+                    id: "tdl02",
+                    name: "druhy úkolovník",
+                    owner: "u1",
+                    memberList: ["u2", "u3"],
+                    itemList: [
+                        {
+                            id: "td02",
+                            name: "první úkol",
+                            resolved: false,
+                        },
+                    ],
+
+                },
+                    {
+                    id: "tdl02",
+                    name: "druhy úkolovník",
+                    owner: "u1",
+                    memberList: ["u2", "u3"],
+                    itemList: [
+                        {
+                            id: "td02",
+                            name: "první úkol",
+                            resolved: false,
+                        },
+                    ],
+
+                },
+                    {
+                    id: "tdl02",
+                    name: "druhy úkolovník",
+                    owner: "u1",
+                    memberList: ["u2", "u3"],
+                    itemList: [
+                        {
+                            id: "td02",
+                            name: "první úkol",
+                            resolved: false,
+                        },
+                    ],
+
+                },
+                    {
+                    id: "tdl02",
+                    name: "druhy úkolovník",
+                    owner: "u1",
+                    memberList: ["u2", "u3"],
+                    itemList: [
+                        {
+                            id: "td02",
+                            name: "první úkol",
+                            resolved: false,
+                        },
+                    ],
+
+                },
+                    {
+                    id: "tdl02",
+                    name: "druhy úkolovník",
+                    owner: "u1",
+                    memberList: ["u2", "u3"],
+                    itemList: [
+                        {
+                            id: "td02",
+                            name: "první úkol",
+                            resolved: false,
+                        },
+                    ],
+
+                },
+            {
+                id: "tdl02",
+                name: "druhy úkolovník",
+                owner: "u1",
+                memberList: ["u2", "u3"],
+                itemList: [
+                    {
+                        id: "td02",
+                        name: "první úkol",
+                        resolved: false,
+                    },
+                ],
+
+            },
                 ]
     );
 
