@@ -3,28 +3,50 @@ import { createContext, useMemo, useState } from "react";
 export const ListDetailContext = createContext();
 
 function ListDetailProvider({ children }) {
-    const [data, setData] = useState({
-        id: "tdl01",
-        name: "První úkolovník",
-        owner: "u1",
-        memberList: ["u2", "u3"],
-        itemList: [
-            {
-                id: "td01",
-                name: "první úkol",
-                resolved: false,
-            },
-        ],
-    });
+    const [data, setData] = useState(
+        [
+                    {
+                        id: "tdl01",
+                        name: "První úkolovník",
+                        owner: "u1",
+                        memberList: ["u2", "u3"],
+                        itemList: [
+                            {
+                                id: "td01",
+                                name: "první úkol",
+                                resolved: false,
+                            },
+                        ],
+
+                    }
+                ],
+                [
+                    {
+                        id: "tdl01",
+                        name: "První úkolovník",
+                        owner: "u1",
+                        memberList: ["u2", "u3"],
+                        itemList: [
+                            {
+                                id: "td01",
+                                name: "první úkol",
+                                resolved: false,
+                            },
+                        ],
+
+                    }
+                ]
+    );
 
     const [showResolved, setShowResolved] = useState(false);
 
     const filteredData = useMemo(() => {
-        const result = { ...data, itemList: [...data.itemList] };
-        if (!showResolved) {
-            result.itemList = result.itemList.filter((item) => !item.resolved);
-        }
-        return result;
+        return data.map((list) => ({
+            ...list,
+            itemList: showResolved
+                ? list.itemList
+                : list.itemList.filter((item) => !item.resolved),
+        }));
     }, [data, showResolved]);
 
     const value = {

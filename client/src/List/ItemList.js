@@ -5,7 +5,6 @@ import Item from "./Item";
 function ItemList() {
   const { data, handlerMap, showResolved, toggleShowResolved } =
     useContext(ListDetailContext);
-
   return (
     <div style={{ border: "1px solid grey", margin: "8px", padding: "8px" }}>
       ItemList <button onClick={() => handlerMap.addItem()}>add item</button>
