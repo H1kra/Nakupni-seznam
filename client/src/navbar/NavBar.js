@@ -1,4 +1,6 @@
 import React, { useState, useContext  } from 'react';
+import { useNavigate } from "react-router-dom";
+import logo from '../images/LOGO.png';
 
 import { UserContext } from "../User/UserProvider"
 
@@ -8,7 +10,7 @@ import { mdiAccount } from '@mdi/js';
 function NavBar() {
     const { userList, loggedInUser, setLoggedInUser } = useContext(UserContext);
     const [isModalVisible, setIsModalVisible] = useState(false);
-
+    const navigate = useNavigate();
     const handleIconClick = () => {
         setIsModalVisible(true);
     };
@@ -19,7 +21,7 @@ function NavBar() {
 
     return (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%",border: "solid 1px" }}>
-            <h1 style={{ marginLeft: "50px", width: "20%" }}>Logo</h1>
+            <img src={logo} alt={"logo"} style={{ marginLeft: "50px", width: "100px" }} onClick={() => navigate(`/`)}></img>
             <div style={{ width: "50%", display: "flex", justifyContent: "flex-end", marginRight: "50px" }}>
                 <Icon path={mdiAccount} size={1} onClick={handleIconClick} />
             </div>
@@ -27,7 +29,7 @@ function NavBar() {
                 <Modal onClose={closeModal}>
                     {userList.map((user) => (
                         <button key={user.id} onClick={() => setLoggedInUser(user.id)}>
-                            {user.name} {user.id === loggedInUser ? <strong>(přihlášen)</strong> : ""}
+                            {user.name} {user.id === loggedInUser ? <strong>(logged in)</strong> : ""}
                         </button>
                     ))}
                 </Modal>

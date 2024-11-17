@@ -1,41 +1,35 @@
 import { useContext, useState } from "react";
+import { useParams } from 'react-router-dom';
 import { ListDetailContext } from "../List/ListProvider";
 import { UserContext } from "../User/UserProvider";
-import AddMemberForm from "./AddMemberForm";
+
 import Member from "./Member";
 
-function MemberList() {
+function MemberList({ listId }) {
     const { data, handlerMap } = useContext(ListDetailContext);
-    const { userMap, userList, loggedInUser } = useContext(UserContext);
-    const [show, setShow] = useState(false);
+    const { userMap, loggedInUser } = useContext(UserContext);
+    const { id } = useParams();
+    const list = data.find((list) => list.id === id);
+    console.log(list);
+    if (!list) {
+        return <p>List not found!</p>;
+    }
+
 
     return (
-        <div style={{ border: "1px solid grey", margin: "8px", padding: "8px" }}>
-            <AddMemberForm
-                show={show}
-                data={data}
-                userList={userList}
-                handlerMap={handlerMap}
-                handleClose={() => setShow(false)}
-            />
+        <div style={{ border: "1px solid grey", margin: "8px", padding: "8px", width: "200px "}}>
             <div>
-                Member List{" "}
-
-                {data.owner === loggedInUser ? (
-                    <button onClick={() => setShow(true)}>add member</button>
-                ) : (
-                    ""
-                )}
+                <h2>Member List{" "}</h2>
             </div>
-            <Member memberId={data.owner} data={userMap[data.owner]} isOwner={true} />
-            {data.memberList.map((memberId) => (
+            <Member memberId={list.owner} data={userMap[list.owner]} isOwner={true} />
+            {list.memberList.map((memberId) => (
                 <Member
                     key={memberId}
                     memberId={memberId}
                     data={userMap[memberId]}
                     handlerMap={handlerMap}
                     showRemoveButton={
-                        loggedInUser === data.owner || memberId === loggedInUser
+                        loggedInUser === list.owner || memberId === loggedInUser
                     }
                 />
             ))}

@@ -1,17 +1,24 @@
 import { useParams } from 'react-router-dom';
 import {useContext} from "react";
 import {ListDetailContext} from "./ListProvider";
-
+import MemberList from "../Members/MemberList";
 function ListDetail() {
     const { id } = useParams();
-    const { data } = useContext(ListDetailContext);
+    const { data, handlerMap } = useContext(ListDetailContext);
     const list = data.find((list) => list.id === id);
 
     if (!list) {
         return <p>List not found!</p>; // Handle invalid IDs
     }
+
+    const detailStyle = {
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+
+    };
     return (
-        <div>
+        <div style={detailStyle}>
             <div>
                 <h1>{list.name}</h1>
                 <h2>Tasks:</h2>
@@ -21,8 +28,11 @@ function ListDetail() {
                     ))}
                 </ul>
             </div>
+            <div>
+                <MemberList/>
+            </div>
         </div>
-    )
+)
 
 }
 
