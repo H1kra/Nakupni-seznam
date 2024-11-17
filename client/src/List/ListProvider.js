@@ -17,16 +17,17 @@ function ListDetailProvider({ children }) {
                                 resolved: false,
                             },
                         ],
+                        archived: "true"
 
                     },
                     {
                         id: "tdl02",
-                        name: "druhy úkolovník",
-                        owner: "u1",
-                        memberList: ["u2", "u3"],
+                        name: "Druhý úkolovník",
+                        owner: "u2",
+                        memberList: [],
                         itemList: [
                             {
-                                id: "td02",
+                                id: "td01",
                                 name: "první úkol",
                                 resolved: false,
                             },
@@ -34,89 +35,18 @@ function ListDetailProvider({ children }) {
 
                     },
                     {
-                    id: "tdl02",
-                    name: "druhy úkolovník",
-                    owner: "u1",
-                    memberList: ["u2", "u3"],
-                    itemList: [
-                        {
-                            id: "td02",
-                            name: "první úkol",
-                            resolved: false,
-                        },
-                    ],
-
-                },
-                    {
-                    id: "tdl02",
-                    name: "druhy úkolovník",
-                    owner: "u1",
-                    memberList: ["u2", "u3"],
-                    itemList: [
-                        {
-                            id: "td02",
-                            name: "první úkol",
-                            resolved: false,
-                        },
-                    ],
-
-                },
-                    {
-                    id: "tdl02",
-                    name: "druhy úkolovník",
-                    owner: "u1",
-                    memberList: ["u2", "u3"],
-                    itemList: [
-                        {
-                            id: "td02",
-                            name: "první úkol",
-                            resolved: false,
-                        },
-                    ],
-
-                },
-                    {
-                    id: "tdl02",
-                    name: "druhy úkolovník",
-                    owner: "u1",
-                    memberList: ["u2", "u3"],
-                    itemList: [
-                        {
-                            id: "td02",
-                            name: "první úkol",
-                            resolved: false,
-                        },
-                    ],
-
-                },
-                    {
-                    id: "tdl02",
-                    name: "druhy úkolovník",
-                    owner: "u1",
-                    memberList: ["u2", "u3"],
-                    itemList: [
-                        {
-                            id: "td02",
-                            name: "první úkol",
-                            resolved: false,
-                        },
-                    ],
-
-                },
-            {
-                id: "tdl02",
-                name: "druhy úkolovník",
-                owner: "u1",
-                memberList: ["u2", "u3"],
-                itemList: [
-                    {
-                        id: "td02",
-                        name: "první úkol",
-                        resolved: false,
-                    },
-                ],
-
-            },
+                        id: "tdl03",
+                        name: "Třetí úkolovník",
+                        owner: "u3",
+                        memberList: [],
+                        itemList: [
+                            {
+                                id: "td01",
+                                name: "první úkol",
+                                resolved: false,
+                            },
+                        ],
+                    }
                 ]
     );
 

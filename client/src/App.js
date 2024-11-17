@@ -4,8 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Layout from "./Layout";
 import UserProvider from "./User/UserProvider";
 import ListProvider from "./List/ListProvider";
-import ItemList from "./List/ItemList"
 import Main from "./Main/Main";
+import ListDetail from "./List/ListDetail";
 
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Layout />}>
                                 <Route index element={<Main />} />
+                                <Route path="/ListDetail/:id" element={<ListDetail />} />
                             </Route>
                         </Routes>
                     </BrowserRouter>

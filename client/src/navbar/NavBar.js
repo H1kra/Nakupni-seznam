@@ -18,7 +18,7 @@ function NavBar() {
     };
 
     return (
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%",border: "solid 1px" }}>
             <h1 style={{ marginLeft: "50px", width: "20%" }}>Logo</h1>
             <div style={{ width: "50%", display: "flex", justifyContent: "flex-end", marginRight: "50px" }}>
                 <Icon path={mdiAccount} size={1} onClick={handleIconClick} />
