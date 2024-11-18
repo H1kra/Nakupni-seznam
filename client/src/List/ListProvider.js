@@ -61,71 +61,93 @@ function ListDetailProvider({ children }) {
         }));
     }, [data, showResolved]);
 
+    const updateList = (id, callback) => {
+        setData((current) =>
+            current.map((list) => (list.id === id ? callback(list) : list))
+        );
+    };
+
+    const handlerMap = {
+        updateName: ({ id, name }) => {
+            updateList(id, (list) => ({ ...list, name }));
+        },
+        createList: ({ name, owner }) => {
+            setData((current) => [
+                ...current,
+                {
+                    id: `tdl${Date.now()}`,
+                    name,
+                    owner,
+                    memberList: [],
+                    itemList: [],
+                    archived: false,
+                },
+            ]);
+        },
+        addItem: ({ listId, name }) => {
+            updateList(listId, (list) => ({
+                ...list,
+                itemList: [
+                    ...list.itemList,
+                    { id: `td${Date.now()}`, name, resolved: false },
+                ],
+            }));
+        },
+        updateItemName: ({ listId, itemId, name }) => {
+            updateList(listId, (list) => ({
+                ...list,
+                itemList: list.itemList.map((item) =>
+                    item.id === itemId ? { ...item, name } : item
+                ),
+            }));
+        },
+        toggleResolveItem: ({ listId, itemId }) => {
+            updateList(listId, (list) => ({
+                ...list,
+                itemList: list.itemList.map((item) =>
+                    item.id === itemId ? { ...item, resolved: !item.resolved } : item
+                ),
+            }));
+        },
+        deleteItem: ({ listId, itemId }) => {
+            updateList(listId, (list) => ({
+                ...list,
+                itemList: list.itemList.filter((item) => item.id !== itemId),
+            }));
+        },
+        addMember: ({ listId, memberId }) => {
+            updateList(listId, (list) => ({
+                ...list,
+                memberList: list.memberList.includes(memberId)
+                    ? list.memberList
+                    : [...list.memberList, memberId],
+            }));
+        },
+        removeMember: ({ listId, memberId }) => {
+            setData((current) =>
+                current.map((list) =>
+                    list.id === listId
+                        ? {
+                            ...list,
+                            memberList: list.memberList.filter((id) => id !== memberId),
+                        }
+                        : list
+                )
+            );
+        },
+    };
+
     const value = {
         data: filteredData,
-        handlerMap: {
-            updateName: ({ name }) => {
-                setData((current) => ({
-                    ...current,
-                    name,
-                }));
-            },
-            addItem: () => {
-                setData((current) => ({
-                    ...current,
-                    itemList: [
-                        ...current.itemList,
-                        {
-                            id: `td${Date.now()}`,
-                            name: "",
-                            resolved: false,
-                        },
-                    ],
-                }));
-            },
-            updateItemName: ({ id, name }) => {
-                setData((current) => ({
-                    ...current,
-                    itemList: current.itemList.map((item) =>
-                        item.id === id ? { ...item, name } : item
-                    ),
-                }));
-            },
-            toggleResolveItem: ({ id }) => {
-                setData((current) => ({
-                    ...current,
-                    itemList: current.itemList.map((item) =>
-                        item.id === id ? { ...item, resolved: !item.resolved } : item
-                    ),
-                }));
-            },
-            deleteItem: ({ id }) => {
-                setData((current) => ({
-                    ...current,
-                    itemList: current.itemList.filter((item) => item.id !== id),
-                }));
-            },
-            addMember: ({ memberId }) => {
-                setData((current) => ({
-                    ...current,
-                    memberList: current.memberList.includes(memberId)
-                        ? current.memberList
-                        : [...current.memberList, memberId],
-                }));
-            },
-            removeMember: ({ memberId }) => {
-                setData((current) => ({
-                    ...current,
-                    memberList: current.memberList.filter((item) => item !== memberId),
-                }));
-            },
-        },
+        handlerMap,
         showResolved,
         toggleShowResolved: () => setShowResolved((current) => !current),
     };
 
     return (
-        <ListDetailContext.Provider value={value}>{children}</ListDetailContext.Provider>
+        <ListDetailContext.Provider value={value}>
+            {children}
+        </ListDetailContext.Provider>
     );
 }
 

@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useParams } from 'react-router-dom';
 import { ListDetailContext } from "../List/ListProvider";
 import { UserContext } from "../User/UserProvider";
 
 import Member from "./Member";
 
-function MemberList({ listId }) {
+function MemberList() {
     const { data, handlerMap } = useContext(ListDetailContext);
     const { userMap, loggedInUser } = useContext(UserContext);
     const { id } = useParams();
@@ -28,9 +28,8 @@ function MemberList({ listId }) {
                     memberId={memberId}
                     data={userMap[memberId]}
                     handlerMap={handlerMap}
-                    showRemoveButton={
-                        loggedInUser === list.owner || memberId === loggedInUser
-                    }
+                    listId={list.id}
+                    showRemoveButton={loggedInUser === list.owner || memberId === loggedInUser}
                 />
             ))}
         </div>

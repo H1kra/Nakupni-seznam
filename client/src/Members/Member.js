@@ -1,14 +1,14 @@
-function Member({ data, handlerMap, isOwner, showRemoveButton }) {
+function Member({ data, handlerMap, isOwner, showRemoveButton, listId }) {
   return (
-    <div>
-      {data.name}
-      {isOwner ? " (Owner) " : " "}
-      {showRemoveButton ? (
-        <button onClick={() => handlerMap.removeMember({ memberId: data.id })}>
-          remove
-        </button>
-      ) : null}
-    </div>
+      <div>
+        {data.name}
+        {isOwner ? " (Owner) " : " "}
+        {showRemoveButton ? (
+            <button onClick={() => handlerMap.removeMember({ listId, memberId: data.id })}>
+              Remove
+            </button>
+        ) : null}
+      </div>
   );
 }
 

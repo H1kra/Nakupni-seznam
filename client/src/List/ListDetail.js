@@ -1,10 +1,11 @@
+
 import { useParams } from 'react-router-dom';
-import {useContext} from "react";
+import { useContext} from "react";
 import {ListDetailContext} from "./ListProvider";
 import MemberList from "../Members/MemberList";
 function ListDetail() {
     const { id } = useParams();
-    const { data, handlerMap } = useContext(ListDetailContext);
+    const { data } = useContext(ListDetailContext);
     const list = data.find((list) => list.id === id);
 
     if (!list) {
@@ -14,9 +15,10 @@ function ListDetail() {
     const detailStyle = {
         display: "flex",
         flexWrap: "wrap",
-        justifyContent: "center",
+        justifyContent: "space-between",
+        alignItems: "center",
 
-    };
+};
     return (
         <div style={detailStyle}>
             <div>
