@@ -16,6 +16,11 @@ function ListDetailProvider({ children }) {
                                 name: "první úkol",
                                 resolved: false,
                             },
+                            {
+                                id: "td02",
+                                name: "první úkol",
+                                resolved: false,
+                            },
                         ],
                         archived: "true"
 
@@ -71,6 +76,12 @@ function ListDetailProvider({ children }) {
         updateName: ({ id, name }) => {
             updateList(id, (list) => ({ ...list, name }));
         },
+        deleteItem: ({ listId, itemId }) => {
+            updateList(listId, (list) => ({
+                ...list,
+                itemList: list.itemList.filter((item) => item.id !== itemId),
+            }));
+        },
         createList: ({ name, owner }) => {
             setData((current) => [
                 ...current,
@@ -107,12 +118,6 @@ function ListDetailProvider({ children }) {
                 itemList: list.itemList.map((item) =>
                     item.id === itemId ? { ...item, resolved: !item.resolved } : item
                 ),
-            }));
-        },
-        deleteItem: ({ listId, itemId }) => {
-            updateList(listId, (list) => ({
-                ...list,
-                itemList: list.itemList.filter((item) => item.id !== itemId),
             }));
         },
         addMember: ({ listId, memberId }) => {

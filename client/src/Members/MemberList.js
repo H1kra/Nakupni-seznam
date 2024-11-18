@@ -10,14 +10,13 @@ function MemberList() {
     const { userMap, loggedInUser } = useContext(UserContext);
     const { id } = useParams();
     const list = data.find((list) => list.id === id);
-    console.log(list);
     if (!list) {
         return <p>List not found!</p>;
     }
 
 
     return (
-        <div style={{ border: "1px solid grey", margin: "8px", padding: "8px", width: "200px "}}>
+        <div style={{ border: "1px solid grey", margin: "8px", padding: "8px", width: "250px "}}>
             <div>
                 <h2>Member List{" "}</h2>
             </div>
