@@ -2,7 +2,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 
-function AddMemberForm({ show, handleClose, userList, handlerMap }) {
+function AddMemberForm({ show, handleClose, userList, handlerMap, listId}) {
   return (
     <Modal show={show} onHide={handleClose}>
       <Form
@@ -11,7 +11,7 @@ function AddMemberForm({ show, handleClose, userList, handlerMap }) {
           e.stopPropagation();
           const formData = new FormData(e.target);
           const values = Object.fromEntries(formData);
-          handlerMap.addMember({ memberId: values.memberId });
+            handlerMap.addMember({ listId, memberId: values.memberId });
           handleClose();
         }}
       >

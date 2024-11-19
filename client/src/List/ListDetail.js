@@ -38,11 +38,12 @@ function ListDetail() {
                 ) : (
                     ""
                 )}
-                <h2>Tasks:</h2>
+                <h2>Item List:</h2>
+                <button onClick={() => handlerMap.addItem({ listId: list.id, name: "New Item" })}>Add item</button>
                 <ul>
                     {list.itemList.map((item) => (
                         <li key={item.id}>
-                            <Item data={item} handlerMap={handlerMap} listId={list.id} />
+                            <Item data={item} handlerMap={handlerMap} listId={list.id}/>
                         </li>
                     ))}
                 </ul>
