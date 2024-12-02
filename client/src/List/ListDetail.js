@@ -32,14 +32,16 @@ function ListDetail() {
                     data={list}
                     handlerMap={handlerMap}
                 />
-                <h1>{list.name}</h1>{" "}
-                {loggedInUser === list.owner ? (
-                    <button onClick={() => setShow(true)}>update name</button>
-                ) : (
-                    ""
-                )}
-                <h2>Item List:</h2>
-                <button onClick={() => handlerMap.addItem({ listId: list.id, name: "New Item" })}>Add item</button>
+                <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
+                    <h1>{list.name}</h1>
+                    {loggedInUser === list.owner && (
+                        <button onClick={() => setShow(true)}>Update Name</button>
+                    )}
+                </div>
+                <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
+                    <h2>Item List:</h2>
+                    <button onClick={() => handlerMap.addItem({listId: list.id, name: "New Item"})}>Add item</button>
+                </div>
                 <ul>
                     {list.itemList.map((item) => (
                         <li key={item.id}>
@@ -52,7 +54,7 @@ function ListDetail() {
                 <MemberList/>
             </div>
         </div>
-)
+    )
 
 }
 

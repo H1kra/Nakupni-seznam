@@ -1,5 +1,4 @@
 import { Outlet } from "react-router-dom";
-
 import NavBar from "./navbar/NavBar";
 
 
@@ -37,8 +36,8 @@ function bodyStyle() {
     };
 }
 
-function footerStyle() {
-    return { padding: "8px", textAlign: "center", backgroundColor: "lightgrey" };
-}
+//function footerStyle() {
+//    return { padding: "8px", textAlign: "center", backgroundColor: "lightgrey" };
+//}
 
 export default Layout;

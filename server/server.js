@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require("mongoose");
+const cors = require("cors");
 const app = express();
 mongoose.set('strictQuery', false);
 
@@ -12,6 +13,9 @@ if (process.env.NODE_ENV !== 'development') {
 
 const PORT = process.env.PORT || 3000;
 const CONNECTION = process.env.CONNECTION;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 
 const start = async() => {
