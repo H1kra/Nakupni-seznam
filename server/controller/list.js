@@ -1,30 +1,28 @@
 const express = require("express");
+const app = express();
 const router = express.Router();
 
-const GetAbl = require("../abl/getAbl");
-const ListAbl = require("../abl/list/listAbl");
-const CreateAbl = require("../abl/list/createAbl");
-const UpdateAbl = require("../abl/list/updateAbl");
-const DeleteAbl = require("../abl/list/deleteAbl");
+const ListSchema = require('../models/list.model');
 
-router.post("/create", (req, res) => {
-    CreateAbl(req, res);
+
+router.route("/create").post(function (req, res) {
+    const list = new ListSchema(req.body);
 });
 
-router.get("/get", (req, res) => {
-    GetAbl(req, res);
+router.route("/get").get(function (req, res) {
+
 });
 
-router.post("/update", (req, res) => {
-    UpdateAbl(req, res);
+router.route("/update").post(function (req, res) {
+
 });
 
-router.post("/delete", (req, res) => {
-    DeleteAbl(req, res);
+router.route("/delete").post(function (req, res) {
+
 });
 
-router.get("/list", (req, res) => {
-    ListAbl(req, res);
+router.route("/list").get(function (req, res) {
+
 });
 
 module.exports = router;
