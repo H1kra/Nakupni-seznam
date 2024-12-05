@@ -1,24 +1,28 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
+
+
+
+const taskSchema = new Schema({
+    name: { type: String, required: true },
+    resolved: { type: Boolean, default: false },
+}, { _id: true });
 
 const listSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    owner: { type: String, required: true },
+    name: { type: String, default: "Untiteled list" ,required: true },
+    ownerId: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
     memberList: [
         {
-            id: {type: String},
-            name: {type: String},
-            surname: {type: String}
-        }
+            type: Schema.Types.ObjectId,
+            ref: "User",
+            required: false
+        },
     ],
-    tasks: [
-        {
-            id: {type: String, required: true},
-            name: {type: String, required: true},
-            resolved: {type: Boolean, default: false}
-
-        }
-        ],
+    tasks: [taskSchema],
 }, { timestamps: true });
 
-const List = mongoose.model("ToDoList", listSchema);
-export default List;
+module.exports = mongoose.model("List", listSchema);
