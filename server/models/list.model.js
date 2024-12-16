@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 const taskSchema = new Schema({
     name: { type: String, required: true },
     resolved: { type: Boolean, default: false },
-}, { _id: true });
+});
 
 const listSchema = new mongoose.Schema({
     name: { type: String, default: "Untiteled list" ,required: true },

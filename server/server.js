@@ -1,38 +1,41 @@
-const express = require('express');
+const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const app = express();
 const list = require("./controller/list");
-const user = require("./controller/user")
+require("dotenv").config();
 
-mongoose.set('strictQuery', false);
+const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-if (process.env.NODE_ENV !== 'development') {
-    require('dotenv').config();
-}
-
-const PORT = process.env.PORT || 3000;
 const CONNECTION = process.env.CONNECTION;
+const PORT = process.env.PORT || 3000;
 
-app.use("/list", list)
-app.use("/user", user)
+app.use("/list", list);
 
-
-
-const start = async() => {
+// Create a standalone function to start the server
+const startServer = async () => {
     try {
-        await mongoose.connect(CONNECTION);
+        await mongoose.connect(CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log("MongoDB connected");
 
         app.listen(PORT, () => {
             console.log(`Server started on port ${PORT}`);
         });
-    } catch (e) {
-        console.log(e.message);
+    } catch (error) {
+        console.error("Error connecting to MongoDB:", error.message);
+        process.exit(1); // Exit the process with failure code
     }
 };
 
-start();
+// Export `app` for testing purposes
+const createServer = () => app;
+
+if (require.main === module) {
+    // If the file is run directly (not imported for testing), start the server
+    startServer();
+}
+
+module.exports = { createServer, startServer };
