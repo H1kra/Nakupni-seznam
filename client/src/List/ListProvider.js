@@ -1,149 +1,64 @@
-import { createContext, useMemo, useState } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
+import { getLists, createList, updateList, deleteList } from "../api";
+import { UserContext } from "../User/UserProvider";
 
 export const ListDetailContext = createContext();
 
 function ListDetailProvider({ children }) {
-    const [data, setData] = useState(
-        [
-                    {
-                        id: "tdl01",
-                        name: "První úkolovník",
-                        owner: "u1",
-                        memberList: ["u2", "u3"],
-                        itemList: [
-                            {
-                                id: "td01",
-                                name: "první úkol",
-                                resolved: false,
-                            },
-                            {
-                                id: "td02",
-                                name: "první úkol",
-                                resolved: false,
-                            },
-                        ],
-                        archived: "true"
-
-                    },
-                    {
-                        id: "tdl02",
-                        name: "Druhý úkolovník",
-                        owner: "u2",
-                        memberList: [],
-                        itemList: [
-                            {
-                                id: "td01",
-                                name: "první úkol",
-                                resolved: false,
-                            },
-                        ],
-
-                    },
-                    {
-                        id: "tdl03",
-                        name: "Třetí úkolovník",
-                        owner: "u3",
-                        memberList: [],
-                        itemList: [
-                            {
-                                id: "td01",
-                                name: "první úkol",
-                                resolved: false,
-                            },
-                        ],
-                    }
-                ]
-    );
-
+    const [data, setData] = useState([]);
     const [showResolved, setShowResolved] = useState(false);
+    const { loggedInUser } = useContext(UserContext); // Access loggedInUser from UserContext
 
-    const filteredData = useMemo(() => {
-        return data.map((list) => ({
-            ...list,
-            itemList: showResolved
-                ? list.itemList
-                : list.itemList.filter((item) => !item.resolved),
-        }));
-    }, [data, showResolved]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const lists = await getLists();
+                setData(lists);
+            } catch (error) {
+                console.error("Error fetching lists:", error);
+            }
+        };
+        fetchData();
+    }, []); // Empty dependency array means this runs once when the component mounts
 
-    const updateList = (id, callback) => {
+    // Update the list in state after a successful update
+    const updateListState = (id, callback) => {
         setData((current) =>
-            current.map((list) => (list.id === id ? callback(list) : list))
+            current.map((list) => (list._id === id ? callback(list) : list))
         );
     };
 
+    // Handlers for CRUD operations
     const handlerMap = {
-        updateName: ({ id, name }) => {
-            updateList(id, (list) => ({ ...list, name }));
+        createList: async (newList) => {
+            try {
+                // Include the loggedInUser as the ownerId
+                const createdList = await createList({ ...newList, ownerId: loggedInUser });
+                setData((current) => [...current, createdList]); // Add to the state
+            } catch (error) {
+                console.error("Error creating list:", error);
+            }
         },
-        deleteItem: ({ listId, itemId }) => {
-            updateList(listId, (list) => ({
-                ...list,
-                itemList: list.itemList.filter((item) => item.id !== itemId),
-            }));
+        updateList: async (id, updatedData) => {
+            try {
+                const updatedList = await updateList(id, updatedData); // Update the list
+                updateListState(id, () => updatedList); // Update in state
+            } catch (error) {
+                console.error("Error updating list:", error);
+            }
         },
-        createList: ({ name, owner }) => {
-            setData((current) => [
-                ...current,
-                {
-                    id: `tdl${Date.now()}`,
-                    name,
-                    owner,
-                    memberList: [],
-                    itemList: [],
-                    archived: false,
-                },
-            ]);
-        },
-        addItem: ({ listId, name }) => {
-            updateList(listId, (list) => ({
-                ...list,
-                itemList: [
-                    ...list.itemList,
-                    { id: `td${Date.now()}`, name, resolved: false },
-                ],
-            }));
-        },
-        updateItemName: ({ listId, itemId, name }) => {
-            updateList(listId, (list) => ({
-                ...list,
-                itemList: list.itemList.map((item) =>
-                    item.id === itemId ? { ...item, name } : item
-                ),
-            }));
-        },
-        toggleResolveItem: ({ listId, itemId }) => {
-            updateList(listId, (list) => ({
-                ...list,
-                itemList: list.itemList.map((item) =>
-                    item.id === itemId ? { ...item, resolved: !item.resolved } : item
-                ),
-            }));
-        },
-        addMember: ({ listId, memberId }) => {
-            updateList(listId, (list) => ({
-                ...list,
-                memberList: list.memberList.includes(memberId)
-                    ? list.memberList
-                    : [...list.memberList, memberId],
-            }));
-        },
-        removeMember: ({ listId, memberId }) => {
-            setData((current) =>
-                current.map((list) =>
-                    list.id === listId
-                        ? {
-                            ...list,
-                            memberList: list.memberList.filter((id) => id !== memberId),
-                        }
-                        : list
-                )
-            );
+        deleteList: async (id) => {
+            try {
+                await deleteList(id); // Delete the list
+                setData((current) => current.filter((list) => list._id !== id)); // Remove from state
+            } catch (error) {
+                console.error("Error deleting list:", error);
+            }
         },
     };
 
     const value = {
-        data: filteredData,
+        data,
         handlerMap,
         showResolved,
         toggleShowResolved: () => setShowResolved((current) => !current),

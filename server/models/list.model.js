@@ -10,17 +10,24 @@ const taskSchema = new Schema({
 
 const listSchema = new mongoose.Schema({
     name: { type: String, default: "Untiteled list" ,required: true },
-    ownerId: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
-    },
-    memberList: [
+    ownerId: { type: String, required: true },
+
+    /*
         {
             type: Schema.Types.ObjectId,
             ref: "User",
-            required: false
-        },
+            required: true,
+        }
+    */
+    memberList: [
+        { type: String, required: true },
+        /*
+            {
+                type: Schema.Types.ObjectId,
+                ref: "User",
+                required: false
+            },
+         */
     ],
     tasks: [taskSchema],
 }, { timestamps: true });

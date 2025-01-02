@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ListDetailContext } from "../List/ListProvider";
 import { UserContext } from "../User/UserProvider";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,43 @@ function CustomModal() {
     const [hoveredItemId, setHoveredItemId] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newListName, setNewListName] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (Array.isArray(data) && data.length > 0) {
+            setIsLoading(false);
+        }
+    }, [data]);
+
+    const userLists = (data && loggedInUser)
+        ? data.filter((list) => list.ownerId === loggedInUser)
+        : [];
+    console.log("userLists", userLists);
+
+
+    const handleCreateList = () => {
+        const newListId = `tdl${Date.now()}`;
+        const newList = {
+            id: newListId,
+            name: newListName || "Untitled List",
+            ownerId: loggedInUser,
+            memberList: [],
+            itemList: [],
+        };
+        handlerMap.createList(newList);
+        setIsModalOpen(false);
+        setNewListName("");
+        navigate(`/ListDetail/${newListId}`);
+    };
+
+
+
+    if (isLoading) {
+        return <p>Loading...</p>;
+    }
+
+
 
     const cardStyle = (isHovered) => ({
         width: "200px",
@@ -31,24 +67,6 @@ function CustomModal() {
     };
 
 
-    const userLists = data.filter(
-        (list) => list.owner === loggedInUser || list.memberList.includes(loggedInUser)
-    );
-
-    const handleCreateList = () => {
-        const newListId = `tdl${Date.now()}`;
-        const newList = {
-            id: newListId,
-            name: newListName || "Untitled List",
-            owner: loggedInUser,
-            memberList: [],
-            itemList: [],
-        };
-        handlerMap.createList(newList);
-        setIsModalOpen(false);
-        setNewListName("");
-        navigate(`/ListDetail/${newListId}`);
-    };
 
     return (
         <div>
@@ -66,7 +84,7 @@ function CustomModal() {
                     {userLists.map((list) => (
                         <div
                             key={list.id}
-                            style={cardStyle(hoveredItemId === list.id)}
+                            style={cardStyle(hoveredItemId === list._id)}
                             onMouseEnter={() => setHoveredItemId(list.id)}
                             onMouseLeave={() => setHoveredItemId(null)}
                             onClick={() => navigate(`/ListDetail/${list.id}`)}
@@ -79,7 +97,7 @@ function CustomModal() {
                             >
                                 {list.name}
                             </h3>
-                            {list.itemList.map((item) => (
+                            {Array.isArray(list.itemList) && list.itemList.map((item) => (
                                 <p key={item.id} style={{ marginLeft: "5px" }}>
                                     • {item.name}
                                 </p>
